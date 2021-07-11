@@ -1,16 +1,33 @@
-interface IArticle {
-  id: number;
-  title: string;
-  body: string;
+interface IBoard {
+  title: string
+  rows: Array<Array<boolean>>;
+  rowsLength: number;
+  columnsLength: number;
 }
 
-type ArticleState = {
-  articles: IArticle[];
+type BoardState = {
+  board: IBoard;
 };
 
-type ArticleAction = {
+type BoardAction = {
   type: string;
-  article: IArticle;
+  payload: IBoard | SizeChange;
 };
 
-type DispatchType = (args: ArticleAction) => ArticleAction;
+type NodePosition = {
+  row: number
+  column: number
+}
+
+type PositionChange = {
+  columnNumber: number
+  rowNumber: number
+  value: boolean
+}
+
+type SizeChange = {
+  rowsLength: number
+  columnsLength: number
+}
+
+type DispatchType = (args: BoardAction) => BoardAction;

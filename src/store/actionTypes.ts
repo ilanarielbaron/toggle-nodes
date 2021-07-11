@@ -1,2 +1,3 @@
-export const ADD_ARTICLE = "ADD_ARTICLE";
-export const REMOVE_ARTICLE = "REMOVE_ARTICLE";
+export const TURN_ON = "TURN_ON";
+export const TURN_OFF = "TURN_OFF";
+export const CHANGE_SIZE = "CHANGE_SIZE";
