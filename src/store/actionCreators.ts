@@ -1,4 +1,5 @@
 import * as actionTypes from "./actionTypes";
+import {Dispatch} from "redux";
 
 export function turnOnAction(position: NodePosition, board: IBoard, dispatch: any) {
     let newBoard: IBoard = board;
@@ -12,7 +13,7 @@ export function turnOnAction(position: NodePosition, board: IBoard, dispatch: an
         payload: board
     };
 
-    dispatch(simulateHttpRequest(action));
+    return dispatch(simulateHttpRequest(action));
 }
 
 export function turnOffAction(position: NodePosition, board: IBoard, dispatch: any) {
@@ -27,7 +28,7 @@ export function turnOffAction(position: NodePosition, board: IBoard, dispatch: a
         payload: board
     };
 
-    dispatch(simulateHttpRequest(action));
+    return dispatch(simulateHttpRequest(action));
 }
 
 export function changeSizeAction(size: SizeChange, dispatch: any) {
@@ -44,7 +45,7 @@ export function changeSizeAction(size: SizeChange, dispatch: any) {
         payload: newBoard
     };
 
-    dispatch(simulateHttpRequest(action))
+    return dispatch(simulateHttpRequest(action))
 }
 
 function changeSize(columns: number, rows: number) {
@@ -61,40 +62,42 @@ function changeSize(columns: number, rows: number) {
     return newMatrix
 }
 
-export async function submitBoardAction(board: IBoard, dispatch: any) {
-    if (!board.rows) {
-        return
-    }
-    const response = await simulateSubmitForm();
+export function submitBoardAction(board: IBoard) {
+    return async function submitBoardThunk(dispatch: Dispatch<any>) {
+        if (!board.rows) {
+            return
+        }
+        const response = await simulateSubmitForm();
 
-    let maxRow = 0
-    let maxColumn = 0
+        let maxRow = 0
+        let maxColumn = 0
 
-    response.forEach(column => column.forEach((point: [number, number]) => {
-        const [column, row] = point
-        maxRow = row > maxRow ? row : maxRow
-        maxColumn = column > maxColumn ? column : maxColumn
-    }))
+        response.forEach(column => column.forEach((point: [number, number]) => {
+            const [column, row] = point
+            maxRow = row > maxRow ? row : maxRow
+            maxColumn = column > maxColumn ? column : maxColumn
+        }))
 
-    const newMatrix = changeSize(maxColumn + 1, maxRow + 1)
+        const newMatrix = changeSize(maxColumn + 1, maxRow + 1)
 
-    response.forEach(columnArray => {
-        columnArray.forEach((cell: [number, number]) => {
-            const [column, row] = cell
-            newMatrix[row][column] = true;
+        response.forEach(columnArray => {
+            columnArray.forEach((cell: [number, number]) => {
+                const [column, row] = cell
+                newMatrix[row][column] = true;
+            })
         })
-    })
 
-    const newBoard = {
-        rows: newMatrix
+        const newBoard = {
+            rows: newMatrix
+        }
+
+        const action: BoardAction = {
+            type: actionTypes.SUBMIT_BOARD,
+            payload: newBoard
+        };
+
+        dispatch(action);
     }
-
-    const action: BoardAction = {
-        type: actionTypes.SUBMIT_BOARD,
-        payload: newBoard
-    };
-
-    dispatch(action);
 }
 
 export function simulateHttpRequest(action: BoardAction) {

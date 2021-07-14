@@ -25,10 +25,6 @@ export const Board = () => {
         changeBoardSize(values)
     }
 
-    const handleSubmitForm = () => {
-        submitBoard()
-    }
-
     return (
         <Container>
             <div>

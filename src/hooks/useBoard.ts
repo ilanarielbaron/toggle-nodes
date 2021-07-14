@@ -16,29 +16,30 @@ export const useBoard = () => {
     const dispatch: Dispatch<any> = useDispatch();
 
     const turnOffNode = React.useCallback(
-        async(position: NodePosition) => {
-            await turnOffAction(position, board, dispatch)
+        (position: NodePosition) => {
+            turnOffAction(position, board, dispatch)
         },
         [dispatch, board, turnOffAction]
     );
 
     const turnOnNode = React.useCallback(
-        async(position: NodePosition) => {
-            await turnOnAction(position, board, dispatch)
+        (position: NodePosition) => {
+            turnOnAction(position, board, dispatch)
         },
         [dispatch, board, turnOnAction]
     );
 
     const changeBoardSize = React.useCallback(
-        async(newSize: SizeChange) => {
-            await changeSizeAction(newSize, dispatch)
+        (newSize: SizeChange) => {
+            changeSizeAction(newSize, dispatch)
         },
         [dispatch, changeSizeAction]
     )
 
     const submitBoard = React.useCallback(
-        async () => {
-            await submitBoardAction(board, dispatch)
+        () => {
+            const submitBoardThunk = submitBoardAction(board)
+            dispatch(submitBoardThunk)
         },
         [dispatch, submitBoardAction]
     )
