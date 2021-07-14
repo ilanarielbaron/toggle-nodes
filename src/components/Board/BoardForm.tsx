@@ -4,11 +4,11 @@ import {
     Form,
     Field,
 } from 'formik';
-import {schema} from "./schema";
+import { schema } from "./schema";
 
 interface Props {
-    initialValues: { rows: number, columns: number },
-    handleChangeSize: (parameters: SizeChange) => void,
+    initialValues: { rows: number, columns: number };
+    handleChangeSize: (parameters: SizeChange) => void;
 }
 
 export const BoardForm = ({initialValues, handleChangeSize}: Props) => (
@@ -27,12 +27,18 @@ export const BoardForm = ({initialValues, handleChangeSize}: Props) => (
 
             return (
                 <Form>
-                    <Field id="rows" name="rows" placeholder="Rows Length" type="number" min="1" max='10'/>
-                    {errors.rows && <p>{errors.rows}</p>}
-                    <Field id="columns" name="columns" placeholder="Columns Length" type="number" min="1"
-                           max='10'/>
-                    {errors.columns && <p>{errors.columns}</p>}
-                    <button disabled={!isValid} type="submit">Submit Size</button>
+                    <div>
+                        <label htmlFor="rows">Rows</label>
+                        <Field id="rows" name="rows" type="number" min="1" max='10'/>
+                        {errors.rows && <p>{errors.rows}</p>}
+                    </div>
+                    <div>
+                        <label htmlFor="columns">Columns</label>
+                        <Field id="columns" name="columns" type="number" min="1"
+                               max='10'/>
+                        {errors.columns && <p>{errors.columns}</p>}
+                    </div>
+                    <button disabled={!isValid} type="submit">Change Size</button>
                 </Form>
             )
         }}

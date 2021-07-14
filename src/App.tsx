@@ -1,6 +1,6 @@
 import * as React from "react";
 import "./styles.css";
-import {Board} from "./components/Board/Board";
+import { Board } from "./components/Board/Board";
 
 const App: React.FC = () => {
     return (

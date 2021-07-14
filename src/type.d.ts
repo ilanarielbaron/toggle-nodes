@@ -1,8 +1,8 @@
 interface IBoard {
-  title: string
-  rows: Array<Array<boolean>>;
-  rowsLength: number;
-  columnsLength: number;
+  title?: string
+  rows?: Array<Array<boolean>>;
+  rowsLength?: number;
+  columnsLength?: number;
 }
 
 type BoardState = {
@@ -11,7 +11,7 @@ type BoardState = {
 
 type BoardAction = {
   type: string;
-  payload: IBoard | SizeChange;
+  payload: IBoard;
 };
 
 type NodePosition = {

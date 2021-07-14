@@ -1,8 +1,8 @@
 import * as React from "react";
-import {useBoard} from "../../hooks/useBoard";
-import {BoardCell} from "./BoardCell";
-import {Container} from "./styled";
-import {BoardForm} from "./BoardForm";
+import { useBoard } from "../../hooks/useBoard";
+import { BoardCell } from "./BoardCell";
+import { Container } from "./styled";
+import { BoardForm } from "./BoardForm";
 
 interface MyFormValues {
     rows: number;
@@ -10,8 +10,8 @@ interface MyFormValues {
 }
 
 export const Board = () => {
-    const {turnOffNode, board, turnOnNode, changeBoardSize} = useBoard()
-    const initialValues: MyFormValues = {rows: 4, columns: 4}
+    const {turnOffNode, board, turnOnNode, changeBoardSize, submitBoard} = useBoard()
+    const initialValues: MyFormValues = {rows: board.rowsLength ?? 4, columns: board.columnsLength ?? 4}
 
     const handleChangeValue = ({rowNumber, columnNumber, value}: PositionChange) => {
         if (value) {
@@ -25,6 +25,10 @@ export const Board = () => {
         changeBoardSize(values)
     }
 
+    const handleSubmitForm = () => {
+        submitBoard()
+    }
+
     return (
         <Container>
             <div>
@@ -32,7 +36,7 @@ export const Board = () => {
             </div>
             <table>
                 <tbody>
-                {board.rows.map((row, rowNumber) => {
+                {board.rows?.map((row, rowNumber) => {
                     return (
                         <tr key={rowNumber}>
                             {row.map((value, columnNumber) => (
@@ -47,6 +51,7 @@ export const Board = () => {
                 </tbody>
             </table>
            <BoardForm initialValues={initialValues} handleChangeSize={handleChangeSize} />
+            <button type="button" onClick={submitBoard}>Submit Form</button>
         </Container>
     );
 };

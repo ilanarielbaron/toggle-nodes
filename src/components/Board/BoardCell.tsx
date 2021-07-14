@@ -10,7 +10,7 @@ export const BoardCell = ({ positionChange, handleChange }: Props) => {
 
     return (
         <th onClick={() => handleChange({rowNumber, columnNumber, value})}>
-            <p>{value ? '-' : '0'}</p>
+            <p>{value ? '0' : '-'}</p>
         </th>
     )
 };

@@ -1,7 +1,7 @@
-import {useDispatch, useSelector} from "react-redux";
-import {Dispatch} from "redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch } from "redux";
 import * as React from "react";
-import {changeSize, turnOff, turnOn} from "../store/actionCreators";
+import { changeSizeAction, submitBoardAction, turnOffAction, turnOnAction } from "../store/actionCreators";
 
 type BoardState = {
     board: IBoard;
@@ -16,34 +16,38 @@ export const useBoard = () => {
     const dispatch: Dispatch<any> = useDispatch();
 
     const turnOffNode = React.useCallback(
-        (position: NodePosition) => {
-            let newBoard: IBoard = board;
-            newBoard.rows[position.row][position.column] = false
-            dispatch(turnOff(newBoard))
+        async(position: NodePosition) => {
+            await turnOffAction(position, board, dispatch)
         },
-        [dispatch, board, turnOff]
+        [dispatch, board, turnOffAction]
     );
 
     const turnOnNode = React.useCallback(
-        (position: NodePosition) => {
-            let newBoard: IBoard = board;
-            newBoard.rows[position.row][position.column] = true
-            dispatch(turnOn(newBoard))
+        async(position: NodePosition) => {
+            await turnOnAction(position, board, dispatch)
         },
-        [dispatch, board, turnOn]
+        [dispatch, board, turnOnAction]
     );
 
     const changeBoardSize = React.useCallback(
-        (newSize: SizeChange) => {
-            dispatch(changeSize(newSize))
+        async(newSize: SizeChange) => {
+            await changeSizeAction(newSize, dispatch)
         },
-        [dispatch, changeSize]
+        [dispatch, changeSizeAction]
+    )
+
+    const submitBoard = React.useCallback(
+        async () => {
+            await submitBoardAction(board, dispatch)
+        },
+        [dispatch, submitBoardAction]
     )
 
     return {
         turnOffNode,
         turnOnNode,
         changeBoardSize,
+        submitBoard,
         board,
     }
 }
